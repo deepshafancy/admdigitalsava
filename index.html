@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ADM Digital Seva & Deepsha Online Solution</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom right, purple, lightgreen, yellow, skyblue);
+      color: #333;
+    }
+    header {
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    nav ul {
+      display: flex;
+      justify-content: center;
+      list-style: none;
+      gap: 20px;
+      padding: 0;
+    }
+    nav ul li { cursor: pointer; }
+    .notification-bar {
+      background-color: #ffeb3b;
+      color: #000;
+      padding: 5px;
+    }
+    .banner {
+      text-align: center;
+      padding: 50px 20px;
+    }
+    .banner button {
+      margin: 10px;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .services .service-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+    .service-card {
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease;
+    }
+    .service-card:hover { transform: scale(1.05); }
+    .service-card .icon { font-size: 40px; margin-bottom: 10px; }
+    .status-timeline { padding: 40px 20px; }
+    .timeline { position: relative; margin: 20px auto; padding: 10px 0; width: 80%; }
+    .timeline::before {
+      content: ''; position: absolute; left: 50%; width: 4px; height: 100%;
+      background: #ccc; transform: translateX(-50%);
+    }
+    .timeline-item { display: flex; margin: 20px 0; position: relative; }
+    .timeline-item:nth-child(even) { flex-direction: row-reverse; }
+    .timeline-icon {
+      background: #4caf50; color: white; border-radius: 50%;
+      width: 50px; height: 50px; text-align: center; line-height: 50px;
+      font-size: 24px; position: relative; z-index: 1;
+    }
+    .timeline-content {
+      background: white; padding: 15px; border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1); width: 45%; margin: 0 20px;
+    }
+    .timeline-content h3 { margin: 0; color: #4caf50; }
+    .timeline-content .date { font-size: 12px; color: #777; }
+    .contact { padding: 40px 20px; background: rgba(255,255,255,0.8); }
+    .contact form { display: flex; flex-direction: column; gap: 10px; width: 300px; margin: auto; }
+    .contact input, .contact textarea {
+      padding: 10px; border: 1px solid #ccc; border-radius: 5px;
+    }
+    .contact button {
+      padding: 10px; background: #4caf50; color: white; border: none; border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>ADM Digital Seva</h1>
+    <p>Deepsha Online Solution</p>
+    <nav>
+      <ul>
+        <li>Home</li><li>About Us</li><li>Services</li><li>Application Status</li><li>Contact Us</li>
+      </ul>
+    </nav>
+    <div class="notification-bar">
+      <marquee>Latest Updates: New Service Added: Online Ration Card Application | New Service Added: E-Passport Renewal | PM Kisan Registration Open</marquee>
+    </div>
+  </header>
+
+  <section class="banner">
+    <h2>Welcome to ADM Digital Seva & Deepsha Online Solution</h2>
+    <button>Our Services</button>
+    <button>Check Status</button>
+  </section>
+
+  <section class="services">
+    <h2>Our Services</h2>
+    <div class="service-grid">
+      <div class="service-card"><div class="icon">???</div><div class="title">Government Services</div></div>
+      <div class="service-card"><div class="icon">??</div><div class="title">Certificates</div></div>
+      <div class="service-card"><div class="icon">??</div><div class="title">Licenses</div></div>
+      <div class="service-card"><div class="icon">??</div><div class="title">Utility Bill Payments</div></div>
+      <div class="service-card"><div class="icon">??</div><div class="title">Social Welfare Schemes</div></div>
+      <div class="service-card"><div class="icon">??</div><div class="title">Banking Services</div></div>
+      <div class="service-card"><div class="icon">???</div><div class="title">Pension & Insurance</div></div>
+      <div class="service-card"><div class="icon">??</div><div class="title">Education Services</div></div>
+    </div>
+  </section>
+
+  <section class="status-timeline">
+    <h2>Application Status Timeline</h2>
+    <p>Follow your application journey with timestamps.</p>
+    <div id="timeline" class="timeline"></div>
+    <div class="status-box">
+      <input type="text" id="applicationId" placeholder="Enter Application ID" />
+      <button onclick="fetchTimeline()">Track</button>
+    </div>
+  </section>
+
+  <section class="contact">
+    <h2>Contact Us</h2>
+    <form>
+      <input type="text" placeholder="Your Name" />
+      <input type="email" placeholder="Your Email" />
+      <textarea placeholder="Your Message"></textarea>
+      <button type="submit">Email</button>
+    </form>
+    <div class="contact-info">
+      <p>Address: 123 Main Street, City, State - 123456</p>
+      <p>Phone: +91-9876543210</p>
+      <p>Email: info@admsevadeepsha.com</p>
+    </div>
+  </section>
+
+  <script>
+    async function fetchTimeline() {
+      const appId = document.getElementById("applicationId").value.trim();
+      const timeline = document.getElementById("timeline");
+
+      if (!appId) {
+        timeline.innerHTML = "<p>?? Please enter a valid Application ID.</p>";
+        return;
+      }
+
+      try {
+        // Replace with your backend API endpoint
+        const response = await fetch(`/api/application-status/${appId}`);
+        if (!response.ok) throw new Error("Network error");
+        const data = await response.json();
+
+        timeline.innerHTML = "";
+        if (data && data.stages && data.stages.length > 0) {
+          data.stages.forEach((item, index) => {
+            timeline.innerHTML += `
+              <div class="timeline-item ${index % 2 === 0 ? "" : "reverse"}">
+                <div class="timeline-icon">??</div>
+                <div class="timeline-content">
+                  <h3>${item.stage}</h3>
+                  <span class="date">${item.date}</span>
+                  <p>${item.note}</p>
+                </div>
+              </div>
+            `;
+          });
+        } else {
+          timeline.innerHTML = "<p>? No timeline found for this Application ID.</p>";
+        }
+      } catch (error) {
+        timeline.innerHTML = "<p>?? Error fetching status. Please try again later.</p>";
+        console.error(error);
+      }
+    }
+  </script>
+</body>
+</html>
